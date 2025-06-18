@@ -1,4 +1,4 @@
-
+# Exemplo de f-string em Python
 
 n = 6.0
 a = 'algebra'
