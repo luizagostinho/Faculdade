@@ -9,13 +9,12 @@ qtd = int(input('Quantas unidades? '))
 if (produto == 1):
     valor = qtd * 2.3
     print(f'Você comprou {qtd} maçãs, totalizando R$ {valor}')
-else:
-    if (produto == 2):
+elif (produto == 2):
         valor = qtd * 1.5
         print(f'Você comprou {qtd} bananas, totalizando R$ {valor}')
-    else:
-        if (produto == 3):
+elif (produto == 3):
             valor = qtd * 2.0
             print(f'Você comprou {qtd} laranjas, totalizando R$ {valor}')
-        else:
+else:
             print(f'Produto inexistente! Escolha entre 1, 2 ou 3.')
+1
