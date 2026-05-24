@@ -4,8 +4,8 @@
 import pygame.image
 from pygame import Surface, Rect
 from pygame.font import Font
-from code.const import C_ORANGE, C_YELLOW, C_WHITE
-from code.const import WIN_WIDTH, WIN_HEIGHT, MENU_OPTION
+from code.const import C_ORANGE, C_YELLOW, C_WHITE, MENU_OPTION
+from code.const import WIN_WIDTH, WIN_HEIGHT
 
 
 
