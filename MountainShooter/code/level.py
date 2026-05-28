@@ -6,6 +6,8 @@ import pygame
 from pygame import Rect
 from pygame.font import Font
 from pygame.surface import Surface
+
+from code.const import MENU_OPTION
 from code.const import WIN_HEIGHT, C_WHITE
 from code.entity import Entity
 from code.entityFactory import EntityFactory
@@ -14,7 +16,7 @@ from code.entityFactory import EntityFactory
 class Level:
 
     def __init__(self, window, name, game_mode):
-
+        self.timeout = 20000
         self.window = window
         self.name = name
         self.game_mode = game_mode
@@ -22,7 +24,11 @@ class Level:
         entityFactory = EntityFactory()
         self.entity_list.extend(entityFactory.get_entity('Level1Bg'))
         self.entity_list.append(entityFactory.get_entity('Player1'))
-        self.timeout = 20000
+
+        if game_mode in [MENU_OPTION[1], MENU_OPTION[2]]:
+            self.entity_list.append(entityFactory.get_entity('Player2'))
+
+
 
     def run(self):
 
@@ -36,9 +42,7 @@ class Level:
             self.window.fill((0, 0, 0))
             # desenha entidades
             for ent in self.entity_list:
-                self.window.blit(
-                    source=ent.surf,
-                    dest=ent.rect)
+                self.window.blit(source=ent.surf,dest=ent.rect)
                 ent.move()
             # eventos
             for event in pygame.event.get():
