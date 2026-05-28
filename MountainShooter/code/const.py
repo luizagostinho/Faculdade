@@ -7,6 +7,8 @@ C_WHITE = (255, 255, 255)
 C_YELLOW = (255,255,0)
 C_ORANGE = (255, 128, 0)
 
+
+EVENT_ENEMY = pygame.USEREVENT + 1
 ENTITY_SPEED = {
     'Level1Bg0': 0,
     'Level1Bg1': 1,
