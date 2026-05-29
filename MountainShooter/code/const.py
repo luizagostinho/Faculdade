@@ -13,7 +13,9 @@ EVENT_ENEMY = pygame.USEREVENT + 1
 
 ENTITY_SHOT_DELAY = {
     'Player1': 20,
-    'Player2': 15 ,
+    'Player2': 15,
+    'Enemy1': 100,
+    'Enemy2': 200,
 }
 
 ENTITY_SPEED = {
