@@ -10,6 +10,8 @@ from pygame.font import Font
 from pygame.surface import Surface
 
 from code.const import EVENT_ENEMY
+from code.enemy import Enemy
+from code.player import Player
 from code.const import MENU_OPTION
 from code.const import WIN_HEIGHT, C_WHITE
 from code.entity import Entity
@@ -48,8 +50,13 @@ class Level:
             self.window.fill((0, 0, 0))
             # desenha entidades
             for ent in self.entity_list:
-                self.window.blit(source=ent.surf,dest=ent.rect)
+                self.window.blit(source=ent.surf, dest=ent.rect)
                 ent.move()
+                if isinstance(ent, (Player, Enemy)):
+                    shot = ent.shot()
+
+                    if shot is not None:
+                        self.entity_list.append(shot)
             # eventos
             for event in pygame.event.get():
 
