@@ -4,12 +4,14 @@ import random
 from random import choice
 
 import pygame
+from pip._internal.resolution.resolvelib import found_candidates
 
 from pygame import Rect
 from pygame.font import Font
 from pygame.surface import Surface
 
-from code.const import EVENT_ENEMY, C_GREEN, C_CYAN
+from code.const import SPAWN_TIME
+from code.const import EVENT_ENEMY, C_GREEN, C_CYAN, EVENT_TIMEOUT, SPAWN_TIME, TIMEOUT_STEP,TIMEOUT_LEVEL
 from code.enemy import Enemy
 from code.player import Player
 from code.const import MENU_OPTION
@@ -21,24 +23,27 @@ from code.entityMediator import EntityMediator
 
 class Level:
 
-    def __init__(self, window, name, game_mode):
-        self.timeout = 20000
+    def __init__(self, window, name, game_mode, player_score: list[int]):
+        self.timeout = TIMEOUT_LEVEL
         self.window = window
         self.name = name
         self.game_mode = game_mode
         self.entity_list: list[Entity] = []
         entityFactory = EntityFactory()
-        self.entity_list.extend(entityFactory.get_entity('Level1Bg'))
-        self.entity_list.append(entityFactory.get_entity('Player1'))
-
+        self.entity_list.extend(entityFactory.get_entity(self.name + 'Bg'))
+        player = entityFactory.get_entity('Player1')
+        player.score = player_score[0]
+        self.entity_list.append(player)
         if game_mode in [MENU_OPTION[1], MENU_OPTION[2]]:
-            self.entity_list.append(entityFactory.get_entity('Player2'))
+            player = entityFactory.get_entity('Player2')
+            player.score = player_score[1]
+            self.entity_list.append(player)
+        pygame.time.set_timer(EVENT_ENEMY, SPAWN_TIME)
+        pygame.time.set_timer(EVENT_TIMEOUT, TIMEOUT_STEP)
 
-        pygame.time.set_timer(EVENT_ENEMY, millis=4000)
 
 
-
-    def run(self):
+    def run(self, player_score: list[int]):
 
         pygame.mixer.music.load(f'./asset/{self.name}.mp3')
         pygame.mixer.music.play(-1)
@@ -71,6 +76,24 @@ class Level:
                 if event.type == EVENT_ENEMY:
                     choice = random.choice(('Enemy1', 'Enemy2'))
                     self.entity_list.append(EntityFactory.get_entity(choice))
+                if event.type == EVENT_TIMEOUT:
+                    self.timeout -= TIMEOUT_STEP
+                    if self.timeout == 0:
+
+                        for ent in self.entity_list:
+                            if isinstance(ent, Player) and ent.name == 'Player1':
+                                player_score[0] = ent.score
+                            if isinstance(ent, Player) and ent.name == 'Player2':
+                                player_score[1] = ent.score
+                        return True
+
+                found_player = False
+                for ent in self.entity_list:
+                    if isinstance(ent, Player):
+                        found_player = True
+
+                if not found_player:
+                    return False
 
             # HUD
             self.level_text(16,f'{self.name} - Timeout: {self.timeout / 1000:.1f}s',C_WHITE,(10, 5))
