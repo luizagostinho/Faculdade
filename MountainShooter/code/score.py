@@ -1,4 +1,6 @@
 import pygame
+from code.DBProxy import DBProxy
+from code.const import MENU_OPTION
 from code.const import C_ORANGE, WIN_WIDTH, C_YELLOW, SCORE_POS
 
 
@@ -9,13 +11,16 @@ class Score:
         self.surf = pygame.image.load('./asset/ScoreBg.png').convert_alpha()
         self.rect = self.surf.get_rect(left=0, top=0)
 
-    def save(self, menu_return: str, player_score: list[int]):
+    def save(self, game_mode: str, player_score: list[int]):
         pygame.mixer_music.load('./asset/Score.mp3')
         pygame.mixer_music.play(-1)
-        self.window.blit(source=self.surf, dest=self.rect)
+        db_proxy = DBProxy('DBScore')
         while True:
+            self.window.blit(source=self.surf, dest=self.rect)
             self.score_text(48, 'YOU WIN!', C_YELLOW, SCORE_POS['Title'])
             pygame.display.flip()
+            if game_mode == MENU_OPTION[0]:
+                text = 'Player 1 enter your name (4 characters):'
             pass
 
     def show(self):
