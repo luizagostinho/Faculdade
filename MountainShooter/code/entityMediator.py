@@ -35,8 +35,12 @@ class EntityMediator:
 
 
         if valid_interaction: # if valid_interaction == True:
-            if ent1.rect.right >= ent2.rect.left and ent1.rect.left <= ent2.rect.right:
-                pass
+            if (ent1.rect.right >= ent2.rect.left and
+                    ent1.rect.left <= ent2.rect.right and
+                    ent1.rect.bottom >= ent2.rect.top and
+                    ent1.rect.top <= ent2.rect.bottom):
+                ent1.health -= ent2.damage
+                ent2.health -= ent1.damage
 
 
 
