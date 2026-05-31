@@ -9,7 +9,7 @@ from pygame import Rect
 from pygame.font import Font
 from pygame.surface import Surface
 
-from code.const import EVENT_ENEMY
+from code.const import EVENT_ENEMY, C_GREEN, C_CYAN
 from code.enemy import Enemy
 from code.player import Player
 from code.const import MENU_OPTION
@@ -57,6 +57,11 @@ class Level:
 
                     if shot is not None:
                         self.entity_list.append(shot)
+                if ent.name == 'Player1':
+                    self.level_text(16, f'Player1 - Health: {ent.health} | Score: {ent.score}', C_GREEN, (10, 20))
+                if ent.name == 'Player2':
+                    self.level_text(16, f'Player2 - Health: {ent.health} | Score: {ent.score}', C_CYAN, (10, 35))
+
             # eventos
             for event in pygame.event.get():
 
@@ -66,7 +71,6 @@ class Level:
                 if event.type == EVENT_ENEMY:
                     choice = random.choice(('Enemy1', 'Enemy2'))
                     self.entity_list.append(EntityFactory.get_entity(choice))
-
 
             # HUD
             self.level_text(16,f'{self.name} - Timeout: {self.timeout / 1000:.1f}s',C_WHITE,(10, 5))
